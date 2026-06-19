@@ -56,3 +56,4 @@ public class ChatGptService {
                     return "No recipe found.";
                 });
     }
+}

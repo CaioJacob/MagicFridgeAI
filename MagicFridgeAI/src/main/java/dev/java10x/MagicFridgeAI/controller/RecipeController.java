@@ -17,7 +17,9 @@ public class RecipeController {
 
     @GetMapping("/generate")
     public Mono<ResponseEntity<String>> generateRecipe(){
-        return chatGptService.generateRecipe();
+        return chatGptService.generateRecipe()
+            .map(recipe -> ResponseEntity.ok(recipe))
+            .defaultIfEmpty(ResponseEntity.notFound().build());
 
     }
 

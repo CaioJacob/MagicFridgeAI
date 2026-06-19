@@ -19,7 +19,7 @@ public class ChatGptService {
     }
 
     public Mono<String> generateRecipe() {
-        String prompt = "Now you are a chef, and you will suggest recipes based on the simple ingredients? ";
+        String prompt = "Now you are a chef, and you will suggest recipes based on the ingredients I have? ";
         Map<String, Object> requestBody = Map.of("model", "gpt-5.5",
                 "messages", List.of(
                         Map.of("role", "system", "content", "You are an assistant who creates recipes."),
@@ -30,7 +30,7 @@ public class ChatGptService {
 
         return webClient.post()
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer" + apiKey)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(Map.class)

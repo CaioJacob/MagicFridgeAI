@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MagicFridge AI 🧊✨</title>
+
+    <!-- Link to modern Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- We will connect our CSS here in Step 2 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- Header -->
+    <header class="header-glass">
+        <h1>MagicFridge <span>AI</span></h1>
+        <p>Your smart fridge powered by Artificial Intelligence</p>
+    </header>
+
+    <div class="main-content">
+
+        <!-- Left Column: Inventory and Form -->
+        <section class="inventory-section glass-panel">
+            <h2>What's in the fridge?</h2>
+
+            <!-- Form to add food -->
+            <form id="food-form">
+                <input type="text" id="food-name" placeholder="E.g., Tomato" required>
+                <input type="text" id="food-category" placeholder="Category (e.g., Vegetable)" required>
+                <input type="number" id="food-qty" placeholder="Qty" required min="1">
+                <button type="submit" class="btn-primary">Save to Fridge</button>
+            </form>
+
+            <!-- List of saved items -->
+            <ul id="food-list" class="food-list">
+                <!-- Items will magically appear here via JS later! -->
+                <li class="empty-message">Your fridge is empty...</li>
+            </ul>
+        </section>
+
+        <!-- Right Column: ChatGPT Magic -->
+        <section class="ai-section glass-panel">
+            <div class="ai-header">
+                <h2>AI Chef's Suggestion 👨‍🍳</h2>
+                <button id="btn-generate" class="btn-magic">✨ Generate Magic Recipe</button>
+            </div>
+
+            <!-- Where the ChatGPT response will appear -->
+            <div class="recipe-container">
+                <div id="recipe-content" class="recipe-content">
+                    Click the button above and I will invent a dish using the ingredients you have!
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- We will connect our JavaScript here in Step 3 -->
+<script src="app.js"></script>
+</body>
+</html>

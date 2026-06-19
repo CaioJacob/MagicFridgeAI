@@ -18,9 +18,22 @@
         <p>Your smart fridge powered by Artificial Intelligence</p>
     </header>
 
-    <div class="main-content">
+    <div style="display: flex; flex-direction: column; gap: 2rem; width: 100%;">
 
-        <section class="inventory-section glass-panel">
+        <section class="ai-section glass-panel" style="width: 100%;">
+            <div class="ai-header">
+                <h2>AI Chef's Suggestion 👨‍🍳</h2>
+                <button id="btn-generate" class="btn-magic">✨ Generate Magic Recipe</button>
+            </div>
+
+            <div class="recipe-container">
+                <div id="recipe-content" class="recipe-content">
+                    Click the button above and I will invent a dish using the ingredients you have!
+                </div>
+            </div>
+        </section>
+
+        <section class="inventory-section glass-panel" style="width: 100%;">
             <h2>What's in the fridge?</h2>
 
             <form id="food-form">
@@ -34,19 +47,6 @@
             <ul id="food-list" class="food-list">
                 <li class="empty-message">Your fridge is empty...</li>
             </ul>
-        </section>
-
-        <section class="ai-section glass-panel">
-            <div class="ai-header">
-                <h2>AI Chef's Suggestion 👨‍🍳</h2>
-                <button id="btn-generate" class="btn-magic">✨ Generate Magic Recipe</button>
-            </div>
-
-            <div class="recipe-container">
-                <div id="recipe-content" class="recipe-content">
-                    Click the button above and I will invent a dish using the ingredients you have!
-                </div>
-            </div>
         </section>
 
     </div>

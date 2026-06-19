@@ -49,7 +49,6 @@ body {
     gap: 2rem;
 }
 
-/* Responsive (Mobile friendly) */
 @media (max-width: 768px) {
     .main-content {
         grid-template-columns: 1fr;

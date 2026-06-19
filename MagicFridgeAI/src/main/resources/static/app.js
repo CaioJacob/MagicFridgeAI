@@ -7,7 +7,6 @@ const foodList = document.getElementById('food-list');
 const btnGenerate = document.getElementById('btn-generate');
 const recipeContent = document.getElementById('recipe-content');
 
-// Fetch inventory when the page loads
 document.addEventListener('DOMContentLoaded', fetchFoodItems);
 
 // ==========================================
@@ -18,15 +17,13 @@ async function fetchFoodItems() {
         const response = await fetch(apiUrl);
         const foods = await response.json();
 
-        foodList.innerHTML = ''; // Clear current list
+        foodList.innerHTML = '';
 
-        // Show empty message if fridge is empty
         if (foods.length === 0) {
             foodList.innerHTML = '<li class="empty-message">Your fridge is empty...</li>';
             return;
         }
 
-        // Populate list with items
         foods.forEach(food => {
             const li = document.createElement('li');
             li.innerHTML = `
@@ -50,14 +47,12 @@ async function fetchFoodItems() {
 // 2. ADD NEW FOOD (POST)
 // ==========================================
 foodForm.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Prevent page reload
+    e.preventDefault();
 
-    // Get values from inputs
     const name = document.getElementById('food-name').value;
     const category = document.getElementById('food-category').value;
     const quantity = document.getElementById('food-qty').value;
 
-    // Provide a generic expiry date to satisfy the database constraint
     const expiryDate = "2026-12-31";
 
     const newFood = { name, category, quantity, expiryDate };
@@ -69,8 +64,8 @@ foodForm.addEventListener('submit', async (e) => {
             body: JSON.stringify(newFood)
         });
 
-        foodForm.reset(); // Clear input fields
-        fetchFoodItems(); // Reload list to show the new item
+        foodForm.reset();
+        fetchFoodItems();
     } catch (error) {
         console.error("Error saving food:", error);
     }
@@ -84,8 +79,54 @@ async function deleteFood(id) {
         await fetch(`${apiUrl}/${id}`, {
             method: 'DELETE'
         });
-        fetchFoodItems(); // Reload list after deletion
+        fetchFoodItems();
     } catch (error) {
         console.error("Error deleting food:", error);
     }
 }
+
+// ==========================================
+// 4. GENERATE RECIPE VIA AI (GET)
+// ==========================================
+btnGenerate.addEventListener('click', async () => {
+    recipeContent.classList.remove('placeholder');
+    recipeContent.innerHTML = '<em>Consulting the AI Chef... please wait 👨‍🍳✨</em>';
+    btnGenerate.disabled = true;
+    btnGenerate.style.opacity = '0.5';
+
+    try {
+        const response = await fetch('http://localhost:8080/generate');
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const recipeText = await response.text();
+
+        recipeContent.innerHTML = '';
+        let i = 0;
+        const speed = 15;
+
+        function typeWriter() {
+            if (i < recipeText.length) {
+                if (recipeText.charAt(i) === '\n') {
+                    recipeContent.innerHTML += '<br>';
+                } else {
+                    recipeContent.innerHTML += recipeText.charAt(i);
+                }
+                i++;
+                setTimeout(typeWriter, speed);
+            } else {
+                btnGenerate.disabled = false;
+                btnGenerate.style.opacity = '1';
+            }
+        }
+        typeWriter();
+
+    } catch (error) {
+        console.error("Error generating recipe:", error);
+        recipeContent.innerHTML = '<span style="color: #ef4444;">Oops! The chef is busy right now. Please check your console or try again.</span>';
+        btnGenerate.disabled = false;
+        btnGenerate.style.opacity = '1';
+    }
+});

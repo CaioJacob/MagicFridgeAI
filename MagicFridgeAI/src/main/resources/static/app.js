@@ -30,10 +30,11 @@ async function fetchFoodItems() {
                 <div>
                     <strong>${food.name}</strong> 
                     <span style="color: var(--text-muted); font-size: 0.9em;">(${food.category})</span>
+                    <div style="font-size: 0.8em; color: #ec4899; margin-top: 4px;">Expires: ${food.expiryDate}</div>
                 </div>
                 <div>
                     <span style="margin-right: 15px; font-weight: bold;">x${food.quantity}</span>
-                    <button onclick="deleteFood(${food.id})" style="background: transparent; color: #ef4444; border: 1px solid #ef4444; padding: 0.3rem 0.6rem;">Remove</button>
+                    <button onclick="deleteFood(${food.id})" style="background: transparent; color: #ef4444; border: 1px solid #ef4444; padding: 0.3rem 0.6rem; border-radius: 6px;">Remove</button>
                 </div>
             `;
             foodList.appendChild(li);
@@ -53,7 +54,7 @@ foodForm.addEventListener('submit', async (e) => {
     const category = document.getElementById('food-category').value;
     const quantity = document.getElementById('food-qty').value;
 
-    const expiryDate = "2026-12-31";
+    const expiryDate = document.getElementById('food-expiry').value;
 
     const newFood = { name, category, quantity, expiryDate };
 

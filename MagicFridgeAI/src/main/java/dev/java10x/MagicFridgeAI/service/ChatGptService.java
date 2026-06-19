@@ -22,14 +22,18 @@ public class ChatGptService {
 
     public Mono<String> generateRecipe(List<FoodItem> fooditems) {
 
+        if (fooditems == null || fooditems.isEmpty()) {
+            return Mono.just("Your fridge is empty! Please add some ingredients first so I can cook for you. 👨‍🍳");
+        }
+
         String foods = fooditems.stream()
                 .map(item -> String.format("%s (%s) - Quantity: %d, Expire Date: %s",
-                                item.getName(), item.getCategory(), item.getQuantity(), item.getExpiryDate()))
+                        item.getName(), item.getCategory(), item.getQuantity(), item.getExpiryDate()))
                 .collect(Collectors.joining("\n"));
 
-        String prompt = "Based on my database, create a recipe using the following ingredients(Take into account the quantity (either in units or grams) and the expiration date, prioritizing ingredients that are closest to expiring.):\n " + foods;
+        String prompt = "Based on my database, create a recipe using the following ingredients(Take into account the quantity (either in units or grams) and the expiration date, prioritizing ingredients that are closest to expiring.). Please return the recipe in plain text without markdown like asterisks or hashtags:\n " + foods;
 
-        Map<String, Object> requestBody = Map.of("model", "gpt-5.5",
+        Map<String, Object> requestBody = Map.of("model", "gpt-3.5-turbo",
                 "messages", List.of(
                         Map.of("role", "system", "content", "You are an assistant who creates recipes."),
                         Map.of("role", "user", "content", prompt)
@@ -49,8 +53,6 @@ public class ChatGptService {
                         Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
                         return message.get("content").toString();
                     }
-            return "No recipe found.";
-        });
-
+                    return "No recipe found.";
+                });
     }
-}
